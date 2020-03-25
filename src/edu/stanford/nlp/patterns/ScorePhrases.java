@@ -338,18 +338,22 @@ public class ScorePhrases<E extends Pattern>  {
     try{
 
       Set<File> files = new HashSet<>();
+      Set<String> emptyStringSet = Collections.emptySet();
 
       Map<E, Map<String, DataInstance>> sentsAll  = new HashMap<>();
       CollectionValuedMap<String, E> sentIds2Pats = new CollectionValuedMap<>();
       for(Map.Entry<E, Set<String>> setEn: sentids.entrySet()){
-        if(!sentsAll.containsKey(setEn.getKey()))
-          sentsAll.put(setEn.getKey(), new HashMap<>());
-        for(String s: setEn.getValue()){
-          sentIds2Pats.add(s, setEn.getKey());
-          if(constVars.batchProcessSents){
-            File f = Data.sentId2File.get(s);
-            assert f!= null : "How come no file for sentence " + s;
-            files.add(f);
+        // Patch: unsophisticated fix for NPE
+        if (setEn != null) {
+          if(setEn.getKey() != null && !sentsAll.containsKey(setEn.getKey()))
+            sentsAll.put(setEn.getKey(), new HashMap<>());
+          for(String s: setEn.getValue() == null ? emptyStringSet : setEn.getValue()){
+            sentIds2Pats.add(s, setEn.getKey());
+            if(constVars.batchProcessSents){
+              File f = Data.sentId2File.get(s);
+              assert f!= null : "How come no file for sentence " + s;
+              files.add(f);
+            }
           }
         }
       }
