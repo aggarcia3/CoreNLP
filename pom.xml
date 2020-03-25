@@ -1,10 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>edu.stanford.nlp</groupId>
   <artifactId>stanford-corenlp</artifactId>
-  <version>3.9.2</version>
+  <version>3.9.2-CUSTOM</version>
   <packaging>jar</packaging>
   <name>Stanford CoreNLP</name>
+  <parent>
+    <artifactId>TextProcApplication</artifactId>
+    <groupId>es.uvigo.esei.sing</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
   <description>Stanford CoreNLP provides a set of natural language analysis tools which can take raw English language text input and give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, mark up the structure of sentences in terms of phrases and word dependencies, and indicate which noun phrases refer to the same entities. It provides the foundational building blocks for higher level text understanding applications.</description>
   <url>https://nlp.stanford.edu/software/corenlp.html</url>
   <licenses>
@@ -175,7 +179,8 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test/src</testSourceDirectory>
-    <plugins>
+    <!-- Do not attach models -->
+    <!--<plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -199,6 +204,6 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
+    </plugins>-->
   </build>
 </project>
