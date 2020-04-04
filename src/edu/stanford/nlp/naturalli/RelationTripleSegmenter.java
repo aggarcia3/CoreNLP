@@ -73,21 +73,24 @@ public class RelationTripleSegmenter {
     }
   }});
 
+  // aggarcia3, 04-04-2020: patch for custom nominal named entity types
+  private static final String NOUN_NER_CLASSES = "ANTIVAXER|PHARMACEUTICAL_ORGANIZATION|VACCINE|VACCINE_TOPIC|VACCINE_PREVENTABLE_DISEASE|POSSIBLE_SYMPTOM|ADVERSE_EVENT|PERSON|ORGANIZATION|LOCATION";
+
   /**
    * A set of nominal patterns, that don't require being in a coherent clause, but do require NER information.
    */
   public final List<TokenSequencePattern> NOUN_TOKEN_PATTERNS = Collections.unmodifiableList(new ArrayList<TokenSequencePattern>() {{
     // { NER nominal_verb NER,
     //   United States president Obama }
-    add(TokenSequencePattern.compile("(?$object [ner:/PERSON|ORGANIZATION|LOCATION+/]+ ) (?$beof_comp [ {tag:/NN.*/} & !{ner:/PERSON|ORGANIZATION|LOCATION/} ]+ ) (?$subject [ner:/PERSON|ORGANIZATION|LOCATION/]+ )"));
+    add(TokenSequencePattern.compile("(?$object [ner:/" + NOUN_NER_CLASSES + "+/]+ ) (?$beof_comp [ {tag:/NN.*/} & !{ner:/" + NOUN_NER_CLASSES + "/} ]+ ) (?$subject [ner:/" + NOUN_NER_CLASSES + "/]+ )"));
     // { NER 's nominal_verb NER,
     //   America 's president , Obama }
-    add(TokenSequencePattern.compile("(?$object [ner:/PERSON|ORGANIZATION|LOCATION+/]+ ) /'s/ (?$beof_comp [ {tag:/NN.*/} & !{ner:/PERSON|ORGANIZATION|LOCATION/} ]+ ) /,/? (?$subject [ner:/PERSON|ORGANIZATION|LOCATION/]+ )"));
+    add(TokenSequencePattern.compile("(?$object [ner:/" + NOUN_NER_CLASSES + "+/]+ ) /'s/ (?$beof_comp [ {tag:/NN.*/} & !{ner:/" + NOUN_NER_CLASSES + "/} ]+ ) /,/? (?$subject [ner:/" + NOUN_NER_CLASSES + "/]+ )"));
     // { NER , NER ,,
     //   Obama, 28, ...,
     //   Obama (28) ...}
-    add(TokenSequencePattern.compile("(?$subject [ner:/PERSON|ORGANIZATION|LOCATION/]+ ) /,/ (?$object [ner:/NUMBER|DURATION|PERSON|ORGANIZATION/]+ ) /,/"));
-    add(TokenSequencePattern.compile("(?$subject [ner:/PERSON|ORGANIZATION|LOCATION/]+ ) /\\(/ (?$object [ner:/NUMBER|DURATION|PERSON|ORGANIZATION/]+ ) /\\)/"));
+    add(TokenSequencePattern.compile("(?$subject [ner:/" + NOUN_NER_CLASSES + "/]+ ) /,/ (?$object [ner:/NUMBER|DURATION|" + NOUN_NER_CLASSES + "/]+ ) /,/"));
+    add(TokenSequencePattern.compile("(?$subject [ner:/" + NOUN_NER_CLASSES + "/]+ ) /\\(/ (?$object [ner:/NUMBER|DURATION|" + NOUN_NER_CLASSES + "/]+ ) /\\)/"));
   }});
 
   /**
@@ -116,14 +119,14 @@ public class RelationTripleSegmenter {
       if (allowNominalsWithoutNER) {
         add(SemgrexPattern.compile("{tag:/N.*/}=subject >/nmod:(?!poss).*/=relaux {}=object"));
       } else {
-        add(SemgrexPattern.compile("{ner:/PERSON|ORGANIZATION|LOCATION/}=subject >/nmod:(?!poss).*/=relaux {ner:/..+/}=object"));
+        add(SemgrexPattern.compile("{ner:/" + NOUN_NER_CLASSES + "/}=subject >/nmod:(?!poss).*/=relaux {ner:/..+/}=object"));
         add(SemgrexPattern.compile("{tag:/N.*/}=subject >/(nmod|obl):(in|with)/=relaux {}=object"));
       }
       //  { President Obama }
       if (allowNominalsWithoutNER) {
         add(SemgrexPattern.compile("{tag:/N.*/}=subject >/amod/=arc {}=object"));
       } else {
-        add(SemgrexPattern.compile("{ner:/PERSON|ORGANIZATION|LOCATION/}=subject >/amod|compound/=arc {ner:/..+/}=object"));
+        add(SemgrexPattern.compile("{ner:/" + NOUN_NER_CLASSES + "/}=subject >/amod|compound/=arc {ner:/..+/}=object"));
       }
     }});
   }
