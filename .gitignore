@@ -6,3 +6,7 @@
 *.so
 .DS_Store
 .settings/**
+# Build and Eclipse artifacts
+/target/
+.classpath
+.project
