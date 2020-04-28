@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>stanford-corenlp</artifactId>
-  <version>3.9.2-CUSTOM</version>
+  <version>4.0.0-CUSTOM</version>
   <packaging>jar</packaging>
   <name>Stanford CoreNLP</name>
   <parent>
@@ -18,8 +18,8 @@
     </license>
   </licenses>
   <scm>
-    <url>https://nlp.stanford.edu/software/stanford-corenlp-full-2018-10-05.zip</url>
-    <connection>https://nlp.stanford.edu/software/stanford-corenlp-full-2018-10-05.zip</connection>
+    <url>https://nlp.stanford.edu/software/stanford-corenlp-full-2020-04-16.zip</url>
+    <connection>https://nlp.stanford.edu/software/stanford-corenlp-full-2020-04-16.zip</connection>
   </scm>
   <developers>
     <developer>
@@ -31,6 +31,11 @@
       <id>jason.bolton</id>
       <name>Jason Bolton</name>
       <email>jebolton@stanford.edu</email>
+    </developer>
+    <developer>
+      <id>john.bauer</id>
+      <name>John Bauer</name>
+      <email>horatio@gmail.com</email>
     </developer>
   </developers>
   <properties>
@@ -195,7 +200,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>${project.basedir}/stanford-corenlp-3.9.2-models.jar</file>
+                  <file>${project.basedir}/stanford-corenlp-4.0.0-models.jar</file>
                   <type>jar</type>
                   <classifier>models</classifier>
                 </artifact>
