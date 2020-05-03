@@ -4,11 +4,6 @@
   <version>4.0.0-CUSTOM</version>
   <packaging>jar</packaging>
   <name>Stanford CoreNLP</name>
-  <parent>
-    <artifactId>TextProcApplication</artifactId>
-    <groupId>es.uvigo.esei.sing</groupId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
   <description>Stanford CoreNLP provides a set of natural language analysis tools which can take raw English language text input and give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, mark up the structure of sentences in terms of phrases and word dependencies, and indicate which noun phrases refer to the same entities. It provides the foundational building blocks for higher level text understanding applications.</description>
   <url>https://nlp.stanford.edu/software/corenlp.html</url>
   <licenses>
@@ -184,6 +179,19 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test/src</testSourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>maven-compiler-plugin</groupId>
+        <artifactId>3.8.1</artifactId>
+        <configuration>
+          <fork>true</fork>
+          <compilerArgs>
+            <!-- Needed for Stanford CoreNLP to compile on all platforms -->
+            <compilerArg>-J-Xss8M</compilerArg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+    </plugins>
     <!-- Do not attach models -->
     <!--<plugins>
       <plugin>
@@ -211,4 +219,11 @@
       </plugin>
     </plugins>-->
   </build>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub aggarcia3 Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/aggarcia3/CoreNLP</url>
+    </repository>
+  </distributionManagement>
 </project>
