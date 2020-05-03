@@ -74,7 +74,8 @@ public class RelationTripleSegmenter {
   }});
 
   // aggarcia3, 04-04-2020: patch for custom nominal named entity types
-  private static final String NOUN_NER_CLASSES = "ANTIVAXER|PHARMACEUTICAL_ORGANIZATION|VACCINE|VACCINE_TOPIC|VACCINE_PREVENTABLE_DISEASE|POSSIBLE_SYMPTOM|ADVERSE_EVENT|PERSON|ORGANIZATION|LOCATION";
+  private static final String NOUN_NER_CLASSES_NO_LOCATION = "ANTIVAXER|PHARMACEUTICAL_ORGANIZATION|VACCINE|VACCINE_TOPIC|VACCINE_PREVENTABLE_DISEASE|POSSIBLE_SYMPTOM|ADVERSE_EVENT|PERSON|ORGANIZATION";
+  private static final String NOUN_NER_CLASSES = NOUN_NER_CLASSES_NO_LOCATION + "|LOCATION";
 
   /**
    * A set of nominal patterns, that don't require being in a coherent clause, but do require NER information.
@@ -89,8 +90,8 @@ public class RelationTripleSegmenter {
     // { NER , NER ,,
     //   Obama, 28, ...,
     //   Obama (28) ...}
-    add(TokenSequencePattern.compile("(?$subject [ner:/" + NOUN_NER_CLASSES + "/]+ ) /,/ (?$object [ner:/NUMBER|DURATION|" + NOUN_NER_CLASSES + "/]+ ) /,/"));
-    add(TokenSequencePattern.compile("(?$subject [ner:/" + NOUN_NER_CLASSES + "/]+ ) /\\(/ (?$object [ner:/NUMBER|DURATION|" + NOUN_NER_CLASSES + "/]+ ) /\\)/"));
+    add(TokenSequencePattern.compile("(?$subject [ner:/" + NOUN_NER_CLASSES + "/]+ ) /,/ (?$object [ner:/NUMBER|DURATION|" + NOUN_NER_CLASSES_NO_LOCATION + "/]+ ) /,/"));
+    add(TokenSequencePattern.compile("(?$subject [ner:/" + NOUN_NER_CLASSES + "/]+ ) /\\(/ (?$object [ner:/NUMBER|DURATION|" + NOUN_NER_CLASSES_NO_LOCATION + "/]+ ) /\\)/"));
   }});
 
   /**
